@@ -1,45 +1,59 @@
 group 'com.namit.presentation_displays'
 version '1.0-SNAPSHOT'
-
+ 
 buildscript {
     ext.kotlin_version = '1.7.20'
     repositories {
         google()
         mavenCentral()
     }
-
+ 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-
+ 
 rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
     }
 }
-
+ 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+ 
 android {
-    compileSdkVersion 33
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+    namespace "com.namit.presentation_displays"
+    compileSdk 34
+ 
+    defaultConfig { minSdk 21 }
+ 
+    compileOptions {
+        // Java bytecode 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    defaultConfig {
-        minSdkVersion 21
-    }
-    lintOptions {
-        disable 'InvalidPackage'
+    kotlinOptions {
+        // bytecode Kotlin use 1.8 Java
+        jvmTarget = '1.8'
     }
 }
-
+ 
+kotlin {
+    jvmToolchain(8)
+}
+ 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+ 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.android.support:support-annotations:28.0.0'
 }
+ 
